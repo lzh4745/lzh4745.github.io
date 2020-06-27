@@ -1,0 +1,42 @@
+#解题思路  
+
+#快慢指针，如果快指针追上慢指针就有环，不然快指针会先null退出。  
+#如果有环，慢指针走的步数就是环的长度，因为快指针每次多比满指针多走一步，刚好多走了环的长度。  
+#然后设两个指针一个先走环的长度步，接着同时开始走，相遇地方就是入口。  
+
+public class Solution {  
+    int count;  
+    public ListNode detectCycle(ListNode head) {  
+        if(head==null)return null;  
+        ListNode fast=head,slow=head;  
+        boolean flag=isCycle(fast,slow);  
+        if(!flag)return null;  
+        ListNode p1=head,p2=head;  
+        while(count!=0){  
+            p1=p1.next;  
+            count--;  
+        }  
+        while(p1!=p2){  
+            p1=p1.next;  
+            p2=p2.next;  
+        }  
+        return p1;  
+    }  
+    boolean isCycle(ListNode fast,ListNode slow){  
+        if(fast.next==null)return false;  
+        fast=fast.next;  
+        if(fast.next==null)return false;  
+        fast=fast.next;  
+        slow=slow.next;  
+        count++;  
+        while(slow!=fast){  
+            if(fast.next==null)return false;  
+            fast=fast.next;  
+            if(fast.next==null)return false;  
+            fast=fast.next;  
+            slow=slow.next;  
+            count++;  
+        }  
+        return true;  
+    }  
+}  
